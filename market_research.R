@@ -1,9 +1,11 @@
 setwd("c:/MyProject")
 library(agricolae)
 library(ca)
+library(car)
 library(GPArotation)
 library(QuantPsyc)
 survey=read.csv("Survey_Result.csv")
+satis_result=read.csv("satis_result.csv")
 attach(survey)
 
 #Two-sample T-test
@@ -32,5 +34,27 @@ scheffe.test(job_psatis, "job", group = FALSE, console = TRUE)
 #소득에 따른 이벤트 및 혜택 중요도 차이
 income_esatis=aov(im_event~userincome)
 summary(income_esatis)
-scheffe.test(income_esatis,"userincome",
-             group = FALSE, console = TRUE)
+scheffe.test(income_esatis,"userincome",group = FALSE, console = TRUE)
+
+#Multiple linear regression
+#속성만족도-전체만족도
+linear_satis=lm(all_satis ~ ., data=satis_result)
+summary(linear_satis)
+#다중공선성, 서비스 제공사 호감도 제외
+vif(linear_satis)
+
+#linear regression
+#가격만족도-전체만족도
+sprice_out=lm(all_satis~price, data=satis_result)
+summary(sprice_out)
+#장르만족도-전체만족도
+sgenre_out=lm(all_satis~genre, data=satis_result)
+summary(sgenre_out)
+#UI디자인만족도-전체만족도
+sdesign_out=lm(all_satis~design, data=satis_result)
+summary(sdesign_out)
+#이외서비스만족도-전체만족도
+sservice_out=lm(all_satis~service, data=satis_result)
+summary(sservice_out)
+
+#Chi-squared test
