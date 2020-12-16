@@ -1,1 +1,3 @@
-# Marketing_Research_R
+# Marketing Research with R
+> 2020.10.27 ~ 2020.12.14
+>> 차차 추가 중...
